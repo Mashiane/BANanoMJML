@@ -15,7 +15,6 @@ Sub Process_Globals
 	Private introductiontext As MJSection
 	Private socialicons As MJSection
 	Private twocolumnsection As MJSection
-	Private bPHP As BANanoPHP
 End Sub
 
 Sub Init
@@ -34,6 +33,9 @@ Sub Init
 	'
 	'load two columns
 	twocolumnsection.Element.LoadLayout("section1")
+	'
+	'load icons
+	icons.Element.LoadLayout("iconsx")
 	
 	'save the email
 	MJMLApp.Save

@@ -4,6 +4,6 @@ ModuleBreakpoints0=
 ModuleBreakpoints1=
 ModuleClosedNodes0=
 ModuleClosedNodes1=
-NavigationStack=Main,Process_Globals,14,6,Main,BANano_Ready,64,0,Main,AppStart,51,6,Visual Designer,myemail.bjl,-100,6,Visual Designer,ch.bjl,-100,4,Visual Designer,ih.bjl,-100,6,Visual Designer,introtext.bjl,-100,6,Visual Designer,section1.bjl,-100,6,pgIndex,Process_Globals,13,4,pgIndex,Init,18,6
+NavigationStack=Main,BANano_Ready,64,0,Main,AppStart,51,6,Visual Designer,myemail.bjl,-100,6,Visual Designer,ch.bjl,-100,4,Visual Designer,ih.bjl,-100,6,Visual Designer,introtext.bjl,-100,6,Visual Designer,section1.bjl,-100,6,Visual Designer,iconsx.bjl,-100,6,pgIndex,Process_Globals,12,4,pgIndex,Init,14,6
 SelectedBuild=0
 VisibleModules=1

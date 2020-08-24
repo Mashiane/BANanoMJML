@@ -1,7 +1,7 @@
 ﻿AppType=JavaFX
 Build1=Default,b4j.example
-File1=70s.jpg
-File2=ch.bjl
+File1=ch.bjl
+File2=iconsx.bjl
 File3=ih.bjl
 File4=introtext.bjl
 File5=myemail.bjl
