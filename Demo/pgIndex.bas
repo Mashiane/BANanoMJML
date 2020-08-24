@@ -28,6 +28,12 @@ Sub Init
 	'
 	'load the image header
 	imageheader.Element.LoadLayout("ih")
+	'
+	'load the intro text
+	introductiontext.Element.LoadLayout("introtext")
+	'
+	'load two columns
+	twocolumnsection.Element.LoadLayout("section1")
 	
 	'save the email
 	MJMLApp.Save

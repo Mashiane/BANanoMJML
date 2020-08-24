@@ -110,6 +110,10 @@ stTextDecoration = Props.Get("TextDecoration")
 stTextTransform = Props.Get("TextTransform")
 End If
 
+	If boLoremipsum Then
+		mCaption = BANanoShared.Rand_LoremIpsum(1)
+	End If
+
 AddAttr("align", stAlign)
 AddAttr("color", stColor)
 AddAttr("container-background-color", stContainerBackgroundColor)
@@ -121,7 +125,6 @@ AddAttr("font-weight", stFontWeight)
 AddAttr("height", stHeight)
 AddAttr("letter-spacing", stLetterSpacing)
 AddAttr("line-height", stLineHeight)
-AddAttr("LoremIpsum", boLoremipsum)
 AddAttr("padding", stPadding)
 AddAttr("padding-bottom", stPaddingBottom)
 AddAttr("padding-left", stPaddingLeft)
