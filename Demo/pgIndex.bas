@@ -15,6 +15,7 @@ Sub Process_Globals
 	Private introductiontext As MJSection
 	Private socialicons As MJSection
 	Private twocolumnsection As MJSection
+	Private bPHP As BANanoPHP
 End Sub
 
 Sub Init
@@ -24,7 +25,7 @@ Sub Init
 	BANano.LoadLayout("#template", "myemail")
 	'load the ch to 
 	companyheader.Element.LoadLayout("ch")
-	'get the html
-	Dim shtml As String = MJMLApp.HTML
-	Log(shtml)
+	
+	'save the email
+	MJMLApp.Save
 End Sub

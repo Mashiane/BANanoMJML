@@ -6,6 +6,7 @@ Group=Default Group
 Library1=jcore
 Library2=jfx
 Library3=banano
+Library4=bananophp
 Module1=BANanoMJML
 Module10=MJAttributes
 Module11=MJBody
@@ -46,7 +47,7 @@ Module7=MJAll
 Module8=MJAnchor
 Module9=MJApp
 NumberOfFiles=1
-NumberOfLibraries=3
+NumberOfLibraries=4
 NumberOfModules=39
 Version=8.5
 @EndOfDesignText@
@@ -61,7 +62,7 @@ Version=8.5
 Sub Process_Globals
 	Public BANano As BANano 'ignore
 	Public AppName As String = "BANanoMJML"
-	Public Version As String = "0.1"
+	Public Version As String = "0.2"
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)

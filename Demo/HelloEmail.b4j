@@ -65,6 +65,11 @@ Sub AppStart (Form1 As Form, Args() As String)
 	Dim appPath As String = $"http://localhost/${AppName}/index.html"$
 	If Port <> "" Then appPath = $"http://localhost:${Port}/${AppName}/index.html"$
 	fx.ShowExternalDocument(appPath)
+	'
+	'open the generated email file
+	Dim emailPath As String = $"http://localhost/${AppName}/myemail.html"$
+	If Port <> "" Then emailPath = $"http://localhost:${Port}/${AppName}/myemail.html"$
+	fx.ShowExternalDocument(emailPath)
 	
 	#if release
 		ExitApplication

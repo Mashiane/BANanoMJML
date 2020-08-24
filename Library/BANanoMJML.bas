@@ -8,13 +8,13 @@ Sub Class_Globals
 	Type FileObject(FileName As String, FileDate As String, FileSize As Long, FileType As String)
 	Private body As BANanoElement
 	Private banano As BANano
-	Private BOmjml As BANanoObject
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
 Public Sub Initialize
 	body.Initialize("#body")
 	body.Empty
+	body.Append($"<iframe id="emailframe" width="100%" height="100%" frameborder="0" src="./myemail.html"></iframe>"$)
 	body.Append($"<div id="placeholder" style="display:none"></div>"$)
 	body.Append($"<div id="template" style="display:none"></div>"$)
 End Sub
@@ -35,7 +35,7 @@ Sub getTemplate As String
 	Return stmp
 End Sub
 
-'serve
+'get the compiled html
 Sub getHTML As String
 	'get the overall template for our email
 	Dim stmp As String = getTemplate
@@ -46,4 +46,23 @@ Sub getHTML As String
 	Dim Response As Map = mjml2html.Execute(Array(stmp))
 	Dim shtml As String = Response.get("html")
 	Return shtml
+End Sub
+
+'preview the email
+Sub Serve
+	Dim shtml As String = getHTML
+	Dim frameContent As String = $"data:text/html,${shtml}"$
+	Dim xFrame As BANanoElement
+	xFrame.Initialize("#emailframe")
+	xFrame.SetAttr("src", frameContent)
+End Sub
+
+'save to server
+Sub Save
+	'get the html content for the email
+	Dim shtml As String = getHTML
+	'
+	Dim bPHP As BANanoPHP
+	bPHP.Initialize
+	banano.CallInlinePHPWait(bPHP.FILE_WRITE, bPHP.BuildWriteFile("./myemail.html", shtml))
 End Sub

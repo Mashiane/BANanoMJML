@@ -118,6 +118,6 @@ ModuleClosedNodes6=
 ModuleClosedNodes7=
 ModuleClosedNodes8=
 ModuleClosedNodes9=
-NavigationStack=MJText,AddAttr,280,0,MJWrapper,AddToParent,173,0,MJWrapper,Class_Globals,32,0,BANanoMJML,Initialize,11,1,Main,BANano_Ready,36,0,Main,AppStart,22,5,BANanoMJML,Class_Globals,0,6,BANanoMJML,BodyFromPlaceholder,18,0,BANanoMJML,getTemplate,28,6,BANanoMJML,getHTML,42,4
+NavigationStack=Main,BANano_Ready,36,0,Main,AppStart,22,5,BANanoMJML,Class_Globals,0,6,Main,Process_Globals,12,0,BANanoMJML,BodyFromPlaceholder,21,0,BANanoMJML,Initialize,10,6,BANanoMJML,getTemplate,29,6,BANanoMJML,getHTML,40,4,BANanoMJML,Save,61,1,BANanoMJML,Serve,47,0
 SelectedBuild=0
 VisibleModules=1
