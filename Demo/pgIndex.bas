@@ -25,6 +25,9 @@ Sub Init
 	BANano.LoadLayout("#template", "myemail")
 	'load the ch to 
 	companyheader.Element.LoadLayout("ch")
+	'
+	'load the image header
+	imageheader.Element.LoadLayout("ih")
 	
 	'save the email
 	MJMLApp.Save
