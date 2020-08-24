@@ -1,0 +1,90 @@
+﻿AppType=JavaFX
+Build1=Default,b4j.example
+File1=mjml.min.js
+FileGroup1=Default Group
+Group=Default Group
+Library1=jcore
+Library2=jfx
+Library3=banano
+Module1=BANanoMJML
+Module10=MJAttributes
+Module11=MJBody
+Module12=MJBreakpoint
+Module13=MJButton
+Module14=MJCarousel
+Module15=MJCarouselImage
+Module16=MJClass
+Module17=MJColumn
+Module18=MJDivider
+Module19=MJFont
+Module2=|absolute|C:\CodingWorld\b4j\shared\BANanoShared
+Module20=MJGroup
+Module21=MJHead
+Module22=MJHero
+Module23=MJImage
+Module24=MJNavBar
+Module25=MJNavBarLink
+Module26=MJPreview
+Module27=MJRaw
+Module28=MJSection
+Module29=MJSocial
+Module3=MJAccordion
+Module30=MJSocialElement
+Module31=MJSpacer
+Module32=MJStyle
+Module33=MJTable
+Module34=MJTableBody
+Module35=MJTableData
+Module36=MJTableRow
+Module37=MJText
+Module38=MJTitle
+Module39=MJWrapper
+Module4=MJAccordionElement
+Module5=MJAccordionText
+Module6=MJAccordionTitle
+Module7=MJAll
+Module8=MJAnchor
+Module9=MJApp
+NumberOfFiles=1
+NumberOfLibraries=3
+NumberOfModules=39
+Version=8.5
+@EndOfDesignText@
+
+#IgnoreWarnings: 16, 10, 14, 15	
+#Region Project Attributes 
+	#MergeLibraries: True
+	#LibraryAuthor: Anele Mashy Mbanga
+	#LibraryName: BANanoMJML
+#End Region
+
+Sub Process_Globals
+	Public BANano As BANano 'ignore
+	Public AppName As String = "BANanoMJML"
+	Public Version As String = "0.1"
+End Sub
+
+Sub AppStart (Form1 As Form, Args() As String)
+	'initialize banano for first use
+	BANano.Initialize("BANano", AppName, Version)
+	BANano.Header.Title = AppName
+	'
+	BANano.Header.AddJavascriptFile("mjml.min.js")
+	
+	' start the build
+	#if release
+		BANano.BuildAsB4Xlib(Version)
+	#else
+	BANano.Build(File.DirApp)
+	#end if
+	ExitApplication
+End Sub
+
+'Return true to allow the default exceptions handler to handle the uncaught exception.
+Sub Application_Error (Error As Exception, StackTrace As String) As Boolean
+	Return True
+End Sub
+
+Sub BANano_Ready
+	
+End Sub
