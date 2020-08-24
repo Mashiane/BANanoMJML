@@ -13,18 +13,19 @@ Version=7
 #DesignerProperty: Key: Style, DisplayName: Style, FieldType: String, DefaultValue: , Description: Styles added to the HTML tag. Must be a json String.
 #DesignerProperty: Key: Attributes, DisplayName: Attributes, FieldType: String, DefaultValue: , Description: Attributes added to the HTML tag. Must be a json String.
 #DesignerProperty: Key: Align, DisplayName: Align, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: Alt, DisplayName: Alt, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: BackgroundColor, DisplayName: BackgroundColor, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: BorderRadius, DisplayName: BorderRadius, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: Color, DisplayName: Color, FieldType: String, DefaultValue:  , Description: 
-#DesignerProperty: Key: ContainerBackgroundColor, DisplayName: ContainerBackgroundColor, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: CssClass, DisplayName: CssClass, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: FontFamily, DisplayName: FontFamily, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: FontSize, DisplayName: FontSize, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: FontStyle, DisplayName: FontStyle, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: FontWeight, DisplayName: FontWeight, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: Href, DisplayName: Href, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: IconHeight, DisplayName: IconHeight, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: IconPadding, DisplayName: IconPadding, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: IconSize, DisplayName: IconSize, FieldType: String, DefaultValue:  , Description: 
-#DesignerProperty: Key: InnerPadding, DisplayName: InnerPadding, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: LineHeight, DisplayName: LineHeight, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: Mode, DisplayName: Mode, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: Name, DisplayName: Name, FieldType: String, DefaultValue:  , Description: 
@@ -33,8 +34,11 @@ Version=7
 #DesignerProperty: Key: PaddingLeft, DisplayName: PaddingLeft, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: PaddingRight, DisplayName: PaddingRight, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: PaddingTop, DisplayName: PaddingTop, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: Src, DisplayName: Src, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: Target, DisplayName: Target, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: TextDecoration, DisplayName: TextDecoration, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: TextPadding, DisplayName: TextPadding, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: Title, DisplayName: Title, FieldType: String, DefaultValue:  , Description: 
 
 Sub Class_Globals
 Private BANano As BANano 'ignore
@@ -50,22 +54,23 @@ Private mCaption As String = ""
 Private classList As Map
 Private styleList As Map
 Private attributeList As Map
-Private mTagName As String = "mj-social"
+Private mTagName As String = "mj-social-element"
 Private sbText As StringBuilder
 Public bindings As Map
 Private stAlign As String = ""
+Private stAlt As String = ""
+Private stBackgroundColor As String = ""
 Private stBorderRadius As String = ""
 Private stColor As String = ""
-Private stContainerBackgroundColor As String = ""
 Private stCssClass As String = ""
 Private stFontFamily As String = ""
 Private stFontSize As String = ""
 Private stFontStyle As String = ""
 Private stFontWeight As String = ""
+Private stHref As String = ""
 Private stIconHeight As String = ""
 Private stIconPadding As String = ""
 Private stIconSize As String = ""
-Private stInnerPadding As String = ""
 Private stLineHeight As String = ""
 Private stMode As String = ""
 Private stName As String = ""
@@ -74,8 +79,11 @@ Private stPaddingBottom As String = ""
 Private stPaddingLeft As String = ""
 Private stPaddingRight As String = ""
 Private stPaddingTop As String = ""
+Private stSrc As String = ""
+Private stTarget As String = ""
 Private stTextDecoration As String = ""
 Private stTextPadding As String = ""
+Private stTitle As String = ""
 End Sub
 
 'initialize the custom view
@@ -98,18 +106,19 @@ mAttributes = Props.Get("Attributes")
 mStyle = Props.Get("Style")
 mCaption = Props.Get("Caption")
 stAlign = Props.Get("Align")
+stAlt = Props.Get("Alt")
+stBackgroundColor = Props.Get("BackgroundColor")
 stBorderRadius = Props.Get("BorderRadius")
 stColor = Props.Get("Color")
-stContainerBackgroundColor = Props.Get("ContainerBackgroundColor")
 stCssClass = Props.Get("CssClass")
 stFontFamily = Props.Get("FontFamily")
 stFontSize = Props.Get("FontSize")
 stFontStyle = Props.Get("FontStyle")
 stFontWeight = Props.Get("FontWeight")
+stHref = Props.Get("Href")
 stIconHeight = Props.Get("IconHeight")
 stIconPadding = Props.Get("IconPadding")
 stIconSize = Props.Get("IconSize")
-stInnerPadding = Props.Get("InnerPadding")
 stLineHeight = Props.Get("LineHeight")
 stMode = Props.Get("Mode")
 stName = Props.Get("Name")
@@ -118,23 +127,27 @@ stPaddingBottom = Props.Get("PaddingBottom")
 stPaddingLeft = Props.Get("PaddingLeft")
 stPaddingRight = Props.Get("PaddingRight")
 stPaddingTop = Props.Get("PaddingTop")
+stSrc = Props.Get("Src")
+stTarget = Props.Get("Target")
 stTextDecoration = Props.Get("TextDecoration")
 stTextPadding = Props.Get("TextPadding")
+stTitle = Props.Get("Title")
 End If
 
 AddAttr("align", stAlign)
+AddAttr("alt", stAlt)
+AddAttr("background-color", stBackgroundColor)
 AddAttr("border-radius", stBorderRadius)
 AddAttr("color", stColor)
-AddAttr("container-background-color", stContainerBackgroundColor)
 AddAttr("css-class", stCssClass)
 AddAttr("font-family", stFontFamily)
 AddAttr("font-size", stFontSize)
 AddAttr("font-style", stFontStyle)
 AddAttr("font-weight", stFontWeight)
+AddAttr("href", stHref)
 AddAttr("icon-height", stIconHeight)
 AddAttr("icon-padding", stIconPadding)
 AddAttr("icon-size", stIconSize)
-AddAttr("inner-padding", stInnerPadding)
 AddAttr("line-height", stLineHeight)
 AddAttr("mode", stMode)
 AddAttr("name", stName)
@@ -143,8 +156,11 @@ AddAttr("padding-bottom", stPaddingBottom)
 AddAttr("padding-left", stPaddingLeft)
 AddAttr("padding-right", stPaddingRight)
 AddAttr("padding-top", stPaddingTop)
+AddAttr("src", stSrc)
+AddAttr("target", stTarget)
 AddAttr("text-decoration", stTextDecoration)
 AddAttr("text-padding", stTextPadding)
+AddAttr("title", stTitle)
 AddClass(mClasses)
 setAttributes(mAttributes)
 setStyles(mStyle)
@@ -378,6 +394,24 @@ public Sub getAlign() As String
 Return stAlign
 End Sub
 
+public Sub setAlt(varAlt As String)
+AddAttr("alt", varAlt)
+stAlt = varAlt
+End Sub
+
+public Sub getAlt() As String
+Return stAlt
+End Sub
+
+public Sub setBackgroundColor(varBackgroundColor As String)
+AddAttr("background-color", varBackgroundColor)
+stBackgroundColor = varBackgroundColor
+End Sub
+
+public Sub getBackgroundColor() As String
+Return stBackgroundColor
+End Sub
+
 public Sub setBorderRadius(varBorderRadius As String)
 AddAttr("border-radius", varBorderRadius)
 stBorderRadius = varBorderRadius
@@ -394,15 +428,6 @@ End Sub
 
 public Sub getColor() As String
 Return stColor
-End Sub
-
-public Sub setContainerBackgroundColor(varContainerBackgroundColor As String)
-AddAttr("container-background-color", varContainerBackgroundColor)
-stContainerBackgroundColor = varContainerBackgroundColor
-End Sub
-
-public Sub getContainerBackgroundColor() As String
-Return stContainerBackgroundColor
 End Sub
 
 public Sub setCssClass(varCssClass As String)
@@ -450,6 +475,15 @@ public Sub getFontWeight() As String
 Return stFontWeight
 End Sub
 
+public Sub setHref(varHref As String)
+AddAttr("href", varHref)
+stHref = varHref
+End Sub
+
+public Sub getHref() As String
+Return stHref
+End Sub
+
 public Sub setIconHeight(varIconHeight As String)
 AddAttr("icon-height", varIconHeight)
 stIconHeight = varIconHeight
@@ -475,15 +509,6 @@ End Sub
 
 public Sub getIconSize() As String
 Return stIconSize
-End Sub
-
-public Sub setInnerPadding(varInnerPadding As String)
-AddAttr("inner-padding", varInnerPadding)
-stInnerPadding = varInnerPadding
-End Sub
-
-public Sub getInnerPadding() As String
-Return stInnerPadding
 End Sub
 
 public Sub setLineHeight(varLineHeight As String)
@@ -558,6 +583,24 @@ public Sub getPaddingTop() As String
 Return stPaddingTop
 End Sub
 
+public Sub setSrc(varSrc As String)
+AddAttr("src", varSrc)
+stSrc = varSrc
+End Sub
+
+public Sub getSrc() As String
+Return stSrc
+End Sub
+
+public Sub setTarget(varTarget As String)
+AddAttr("target", varTarget)
+stTarget = varTarget
+End Sub
+
+public Sub getTarget() As String
+Return stTarget
+End Sub
+
 public Sub setTextDecoration(varTextDecoration As String)
 AddAttr("text-decoration", varTextDecoration)
 stTextDecoration = varTextDecoration
@@ -574,6 +617,15 @@ End Sub
 
 public Sub getTextPadding() As String
 Return stTextPadding
+End Sub
+
+public Sub setTitle(varTitle As String)
+AddAttr("title", varTitle)
+stTitle = varTitle
+End Sub
+
+public Sub getTitle() As String
+Return stTitle
 End Sub
 
 

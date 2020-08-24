@@ -19,7 +19,7 @@ End Sub
 
 Sub Init
 	'initialize the app
-	MJMLApp.Initialize
+	MJMLApp.Initialize("myemail")
 	'load the main layout
 	BANano.LoadLayout("#template", "myemail")
 	'load the ch to 
@@ -36,6 +36,9 @@ Sub Init
 	'
 	'load icons
 	icons.Element.LoadLayout("iconsx")
+	'
+	'load social
+	socialicons.Element.LoadLayout("social")
 	
 	'save the email
 	MJMLApp.Save

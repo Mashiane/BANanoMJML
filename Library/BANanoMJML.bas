@@ -7,20 +7,27 @@ Version=8.5
 Sub Class_Globals
 	Type FileObject(FileName As String, FileDate As String, FileSize As Long, FileType As String)
 	Private body As BANanoElement
-	Private banano As BANano
+	Private banano As BANano  'ignore
+	Public Beautify As Boolean
+	Public Minify As Boolean
+	Public ValidationLevel As String
+	Private options As Map
+	Private nameof As String
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
-Public Sub Initialize
+Public Sub Initialize(nameit As String)
+	nameof = nameit.tolowercase
 	body.Initialize("#body")
 	body.Empty
-	body.Append($"<iframe id="emailframe" width="100%" height="100%" frameborder="0" src="./myemail.html"></iframe>"$)
-	body.Append($"<div id="placeholder" style="display:none"></div>"$)
-	body.Append($"<div id="template" style="display:none"></div>"$)
+	body.Append($"<iframe id="emailframe" style="width=100%;height=100%" width="100%" height="100%" frameborder="0" src="./${nameit}.html"></iframe>"$)
+	body.Append($"<div id="placeholder" style="display:none;"></div>"$)
+	body.Append($"<div id="template" style="display:none;"></div>"$)
+	options.Initialize 
 End Sub
 
 'append placeholder to body
-Sub BodyFromPlaceholder
+Sub BodyFromPlaceholder  'ignore
 	Private ph As BANanoElement
 	ph.Initialize("#placeholder")
 	Dim sph As String = ph.GetHTML
@@ -49,20 +56,20 @@ Sub getHTML As String
 End Sub
 
 'preview the email
-Sub Serve
-	Dim shtml As String = getHTML
-	Dim frameContent As String = $"data:text/html,${shtml}"$
-	Dim xFrame As BANanoElement
-	xFrame.Initialize("#emailframe")
-	xFrame.SetAttr("src", frameContent)
-End Sub
+'Sub Serve
+'	Dim shtml As String = getHTML
+'	Dim frameContent As String = $"data:text/html,${shtml}"$
+'	Dim xFrame As BANanoElement
+'	xFrame.Initialize("#emailframe")
+'	xFrame.SetAttr("src", frameContent)
+'End Sub
 
 'save to server
-Sub Save
+Sub Save  'ignore
 	'get the html content for the email
 	Dim shtml As String = getHTML
 	'
 	Dim bPHP As BANanoPHP
 	bPHP.Initialize
-	banano.CallInlinePHPWait(bPHP.FILE_WRITE, bPHP.BuildWriteFile("./myemail.html", shtml))
+	banano.CallInlinePHPWait(bPHP.FILE_WRITE, bPHP.BuildWriteFile($"./${nameof}.html"$, shtml))
 End Sub
