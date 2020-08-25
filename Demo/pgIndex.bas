@@ -20,6 +20,8 @@ End Sub
 Sub Init
 	'initialize the app
 	MJMLApp.Initialize("myemail")
+	MJMLApp.Minify = True
+	'MJMLApp.Beautify = True
 	'load the main layout
 	BANano.LoadLayout("#template", "myemail")
 	'load the ch to 
@@ -42,4 +44,20 @@ Sub Init
 	
 	'save the email
 	MJMLApp.Save
+	'send the email
+	MJMLApp.MailFrom = "mbanga.anele@gmail.com"
+	MJMLApp.MailRecipients = "mbanga.anele@gmail.com"
+	MJMLApp.MailSubject = "HTML Email Test"
+	'
+	Dim Response As Map
+	Dim Error As Map
+	Dim bp As BANanoPromise = MJMLApp.Send
+	bp.Then(Response)
+	Log(Response)
+	'Response = BANano.FromJson(Response)
+	'Dim status As String = Response.Get("response")
+	'Log(status)
+	bp.Else(Error)
+	Log(Error)
+	bp.End
 End Sub

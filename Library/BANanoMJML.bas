@@ -13,6 +13,14 @@ Sub Class_Globals
 	Public ValidationLevel As String
 	Private options As Map
 	Private nameof As String
+	Private minifyOptions As Map
+	Public minifyCSS As Boolean
+	Public removeEmptyAttributes As Boolean
+	Public collapseWhitespace As Boolean
+	Public MailFrom As String
+	Public MailRecipients As String
+	Public MailSubject As String
+	Public MailCC As String
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
@@ -24,6 +32,31 @@ Public Sub Initialize(nameit As String)
 	body.Append($"<div id="placeholder" style="display:none;"></div>"$)
 	body.Append($"<div id="template" style="display:none;"></div>"$)
 	options.Initialize 
+	minifyOptions.Initialize 
+	minifyCSS = True
+	removeEmptyAttributes = True
+	collapseWhitespace = True
+	Minify = True
+	Beautify = False
+End Sub
+
+'send email
+Sub Send As BANanoPromise  'ignore
+	'get the html content for the email
+	Dim shtml As String = getHTML
+	Return SendHTMLEmail(MailFrom, MailRecipients, MailCC, MailSubject, shtml)
+End Sub
+
+private Sub SendHTMLEmail(sfrom As String, sto As String, scc As String, sSubject As String, smsg As String) As BANanoPromise
+	smsg = smsg.Replace(QUOTE, "'")
+	Dim se As Map = CreateMap()
+	se.put("from", sfrom)
+	se.put("to", sto)
+	se.put("cc", scc)
+	se.put("subject", sSubject)
+	se.put("msg", smsg)
+	Dim bp As BANanoPromise  = banano.CallInlinePHPWait("SendHTMLEmail", se)
+	Return bp
 End Sub
 
 'append placeholder to body
@@ -44,25 +77,22 @@ End Sub
 
 'get the compiled html
 Sub getHTML As String
+	minifyOptions.Put("minifyCSS", minifyCSS)
+	minifyOptions.Put("removeEmptyAttributes", removeEmptyAttributes)
+	minifyOptions.Put("collapseWhitespace", collapseWhitespace)
+	options.Put("minifyOptions", minifyOptions)
+	If Beautify Then options.Put("beautify", True)
+	If Minify Then options.Put("minify", True)
 	'get the overall template for our email
 	Dim stmp As String = getTemplate
 	'lets compile it to HTML
 	Dim window As BANanoObject = banano.Window
 	Dim mjml As BANanoObject = window.getfield("mjml")
 	Dim mjml2html As BANanoObject = mjml.GetField("default")
-	Dim Response As Map = mjml2html.Execute(Array(stmp))
+	Dim Response As Map = mjml2html.Execute(Array(stmp, options))
 	Dim shtml As String = Response.get("html")
 	Return shtml
 End Sub
-
-'preview the email
-'Sub Serve
-'	Dim shtml As String = getHTML
-'	Dim frameContent As String = $"data:text/html,${shtml}"$
-'	Dim xFrame As BANanoElement
-'	xFrame.Initialize("#emailframe")
-'	xFrame.SetAttr("src", frameContent)
-'End Sub
 
 'save to server
 Sub Save  'ignore
