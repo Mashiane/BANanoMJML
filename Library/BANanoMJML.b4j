@@ -62,7 +62,7 @@ Version=8.5
 Sub Process_Globals
 	Public BANano As BANano 'ignore
 	Public AppName As String = "BANanoMJML"
-	Public Version As String = "1.1"
+	Public Version As String = "1.2"
 End Sub
 
 Sub AppStart (Form1 As Form, Args() As String)
@@ -71,7 +71,6 @@ Sub AppStart (Form1 As Form, Args() As String)
 	BANano.Header.Title = AppName
 	'
 	BANano.Header.AddJavascriptFile("mjml.min.js")
-	
 	' start the build
 	#if release
 		BANano.BuildAsB4Xlib(Version)

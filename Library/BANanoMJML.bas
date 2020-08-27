@@ -17,10 +17,7 @@ Sub Class_Globals
 	Public minifyCSS As Boolean
 	Public removeEmptyAttributes As Boolean
 	Public collapseWhitespace As Boolean
-	Public MailFrom As String
-	Public MailRecipients As String
-	Public MailSubject As String
-	Public MailCC As String
+	Private emailframe As BANanoElement
 End Sub
 
 'Initializes the object. You can add parameters to this method if needed.
@@ -28,8 +25,7 @@ Public Sub Initialize(nameit As String)
 	nameof = nameit.tolowercase
 	body.Initialize("#body")
 	body.Empty
-	body.Append($"<iframe id="emailframe" style="width=100%;height=100%" width="100%" height="100%" frameborder="0" src="./${nameit}.html"></iframe>"$)
-	body.Append($"<div id="placeholder" style="display:none;"></div>"$)
+	body.Append($"<iframe id="emailframe" frameborder="0"></iframe>"$)
 	body.Append($"<div id="template" style="display:none;"></div>"$)
 	options.Initialize 
 	minifyOptions.Initialize 
@@ -38,34 +34,48 @@ Public Sub Initialize(nameit As String)
 	collapseWhitespace = True
 	Minify = True
 	Beautify = False
+	emailframe.Initialize("#emailframe")
+	Dim istyle As Map = CreateMap("position":"fixed", "top":0, "left":0, "bottom":0, "right":0, "width":"100%", "height":"100%", "border":"none")
+	istyle.Put("margin",0)
+	istyle.Put("padding",0)
+	istyle.Put("overflow","hidden")
+	istyle.Put("z-index",999999)
+	emailframe.SetStyle(banano.ToJson(istyle))
 End Sub
 
+	
 'send email
-Sub Send As BANanoPromise  'ignore
+Sub Email(MailFromName As String, MailFrom As String, MailSubject As String, MailRecipients As String) As BANanoPromise  'ignore
 	'get the html content for the email
 	Dim shtml As String = getHTML
-	Return SendHTMLEmail(MailFrom, MailRecipients, MailCC, MailSubject, shtml)
-End Sub
-
-private Sub SendHTMLEmail(sfrom As String, sto As String, scc As String, sSubject As String, smsg As String) As BANanoPromise
-	smsg = smsg.Replace(QUOTE, "'")
 	Dim se As Map = CreateMap()
-	se.put("from", sfrom)
-	se.put("to", sto)
-	se.put("cc", scc)
-	se.put("subject", sSubject)
-	se.put("msg", smsg)
-	Dim bp As BANanoPromise  = banano.CallInlinePHPWait("SendHTMLEmail", se)
+	se.put("from", MailFrom)
+	se.put("to", MailRecipients)
+	se.put("subject", MailSubject)
+	se.put("msg", shtml)
+	se.Put("fromname", MailFromName)
+	Dim bp As BANanoPromise = banano.CallInlinePHPWait("SendMJMLEmail", se)
 	Return bp
 End Sub
 
-'append placeholder to body
-Sub BodyFromPlaceholder  'ignore
-	Private ph As BANanoElement
-	ph.Initialize("#placeholder")
-	Dim sph As String = ph.GetHTML
-	body.Append(sph)
-End Sub
+#if PHP
+function SendMJMLEmail($from,$to,$subject,$msg,$fromname) {
+	$hdr  = 'MIME-Version: 1.0' . "\r\n";
+	$hdr .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+	$hdr .= 'X-Mailer:PHP/' . phpversion() . "\r\n";
+	$hdr .= 'From: '.$fromname.'<'.$from.'>' . "\r\n";
+	$extra = '-f '. $from; 
+    if (mail($to, $subject, $msg, $hdr, $extra)) {
+		$resp['status'] = "success";
+		$output = json_encode($resp);
+		echo($output);
+	} else {
+		$resp['status'] = "failure";
+		$output = json_encode($resp);
+		echo($output);
+    }
+}
+#End If
 
 'get template
 Sub getTemplate As String
@@ -102,4 +112,14 @@ Sub Save  'ignore
 	Dim bPHP As BANanoPHP
 	bPHP.Initialize
 	banano.CallInlinePHPWait(bPHP.FILE_WRITE, bPHP.BuildWriteFile($"./${nameof}.html"$, shtml))
+End Sub
+
+'preview on iframe
+Sub Preview
+	'get the html content for the email
+	Dim shtml As String = getHTML
+	'
+	emailframe.GetField("contentWindow").GetField("document").RunMethod("open", Null)
+	emailframe.GetField("contentWindow").GetField("document").RunMethod("write", Array(shtml))
+	emailframe.GetField("contentWindow").GetField("document").RunMethod("close", Null)
 End Sub

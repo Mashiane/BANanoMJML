@@ -42,22 +42,17 @@ Sub Init
 	'load social
 	socialicons.Element.LoadLayout("social")
 	
+	MJMLApp.Preview
+	
 	'save the email
-	MJMLApp.Save
-	'send the email
-	MJMLApp.MailFrom = "mbanga.anele@gmail.com"
-	MJMLApp.MailRecipients = "mbanga.anele@gmail.com"
-	MJMLApp.MailSubject = "HTML Email Test"
+	'MJMLApp.Save
 	'
-	Dim Response As Map
-	Dim Error As Map
-	Dim bp As BANanoPromise = MJMLApp.Send
-	bp.Then(Response)
-	Log(Response)
-	'Response = BANano.FromJson(Response)
-	'Dim status As String = Response.Get("response")
-	'Log(status)
-	bp.Else(Error)
-	Log(Error)
-	bp.End
+	'Dim bpr As Map
+	'Dim bpe As Map
+	'Dim bp As BANanoPromise = MJMLApp.Email("TGIF Zone Inc", "info@tgifzone.com", "BANanoMJML Test", "mbanga.anele@tgifzone.com")
+	'bp.Then(bpr)
+	'Log(bpr)
+	'bp.Else(bpe)
+	'Log(bpe)
+	'bp.End
 End Sub
