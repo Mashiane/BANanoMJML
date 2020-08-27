@@ -20,8 +20,6 @@ End Sub
 Sub Init
 	'initialize the app
 	MJMLApp.Initialize("myemail")
-	MJMLApp.Minify = True
-	'MJMLApp.Beautify = True
 	'load the main layout
 	BANano.LoadLayout("#template", "myemail")
 	'load the ch to 
@@ -44,15 +42,16 @@ Sub Init
 	
 	MJMLApp.Preview
 	
-	'save the email
-	'MJMLApp.Save
+	'save the email on root - if one needs do
+	BANanoHelpers.SaveHTMLFile("myemail", MJMLApp.HTML)
 	'
-	'Dim bpr As Map
-	'Dim bpe As Map
-	'Dim bp As BANanoPromise = MJMLApp.Email("TGIF Zone Inc", "info@tgifzone.com", "BANanoMJML Test", "mbanga.anele@tgifzone.com")
-	'bp.Then(bpr)
-	'Log(bpr)
-	'bp.Else(bpe)
-	'Log(bpe)
-	'bp.End
+	Dim bpr As Map
+	Dim bpe As Map
+	Dim bp As BANanoPromise = BANanoHelpers.SendMJMLEmail("TGIF Zone Inc", "info@tgifzone.com", "BANanoMJML Test", "mbanga.anele@tgifzone.com", MJMLApp.html)
+	bp.Then(bpr)
+	Log(bpr)
+	bp.Else(bpe)
+	Log(bpe)
+	bp.End
+	
 End Sub

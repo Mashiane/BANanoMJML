@@ -43,21 +43,6 @@ Public Sub Initialize(nameit As String)
 	emailframe.SetStyle(banano.ToJson(istyle))
 End Sub
 
-	
-'send email
-Sub Email(MailFromName As String, MailFrom As String, MailSubject As String, MailRecipients As String) As BANanoPromise  'ignore
-	'get the html content for the email
-	Dim shtml As String = getHTML
-	Dim se As Map = CreateMap()
-	se.put("from", MailFrom)
-	se.put("to", MailRecipients)
-	se.put("subject", MailSubject)
-	se.put("msg", shtml)
-	se.Put("fromname", MailFromName)
-	Dim bp As BANanoPromise = banano.CallInlinePHPWait("SendMJMLEmail", se)
-	Return bp
-End Sub
-
 #if PHP
 function SendMJMLEmail($from,$to,$subject,$msg,$fromname) {
 	$hdr  = 'MIME-Version: 1.0' . "\r\n";
@@ -102,16 +87,6 @@ Sub getHTML As String
 	Dim Response As Map = mjml2html.Execute(Array(stmp, options))
 	Dim shtml As String = Response.get("html")
 	Return shtml
-End Sub
-
-'save to server
-Sub Save  'ignore
-	'get the html content for the email
-	Dim shtml As String = getHTML
-	'
-	Dim bPHP As BANanoPHP
-	bPHP.Initialize
-	banano.CallInlinePHPWait(bPHP.FILE_WRITE, bPHP.BuildWriteFile($"./${nameof}.html"$, shtml))
 End Sub
 
 'preview on iframe

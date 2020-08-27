@@ -19,10 +19,11 @@ Library1=jcore
 Library2=jfx
 Library3=banano
 Library4=bananomjml
-Module1=pgIndex
+Module1=BANanoHelpers
+Module2=pgIndex
 NumberOfFiles=7
 NumberOfLibraries=4
-NumberOfModules=1
+NumberOfModules=2
 Version=8.5
 @EndOfDesignText@
 #IgnoreWarnings: 12, 15

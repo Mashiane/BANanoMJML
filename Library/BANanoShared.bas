@@ -45,24 +45,6 @@ Sub BuildPHPEmail(sfrom As String, sto As String, scc As String, ssubject As Str
 	Return Se
 End Sub
 
-Sub SendEmail(sfrom As String, sto As String, scc As String, sSubject As String, smsg As String) As Boolean
-	Dim Se As Map = CreateMap()
-	Se.put("from", sfrom)
-	Se.put("to", sto)
-	Se.put("cc", scc)
-	Se.put("subject", sSubject)
-	Se.put("msg", smsg)
-	Dim Result As String = BANano.CallInlinePHPWait("SendEmail", Se)
-	Dim ResultM As Map = BANano.FromJSON(Result)
-	Dim Response As String = ResultM.Get("response")
-	Select Case Response
-	Case "failure"	
-		Return False
-	Case Else
-		Return True
-	End Select
-End Sub
-
 'get id from event
 Sub GetIDFromEvent(e As BANanoEvent) As String
 	Dim curEve As BANanoElement = BANano.ToElement(e.OtherField("currentTarget"))
@@ -2413,23 +2395,6 @@ Sub GetUploadFileName(e As BANanoEvent) As String
 	Return sFileName
 End Sub
 
-''on file change
-'Sub UploadFileWait(e As BANanoEvent) As BANanoPromise
-'	Dim prom As BANanoPromise
-'	'get selected file(s)
-'	Dim fileList As List = GetFileListFromTarget(e)
-'	If fileList.size = 0 Then Return prom
-'	
-'	'get the file to upload
-'	Dim fileO As Map = fileList.Get(0)
-'	'start uploading the file
-'	Dim fd As BANanoObject
-'	fd.Initialize2("FormData", Null)
-'	fd.RunMethod("append", Array("upload", fileO))
-'	'
-'	prom = BANano.CallAjaxWait("./assets/upload.php", "POST", "", fd, True, Null)
-'	Return prom
-'End Sub
 
 public Sub GenerateNanoID() As String
 	' for IE
