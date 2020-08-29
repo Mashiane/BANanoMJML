@@ -43,22 +43,33 @@ Public Sub Initialize(nameit As String)
 	emailframe.SetStyle(banano.ToJson(istyle))
 End Sub
 
+'save content to html
+Sub Save
+	'get the html content for the email
+	Dim shtml As String = getHTML
+	Dim bPHP As BANanoPHP
+	bPHP.Initialize
+	banano.CallInlinePHPWait(bPHP.FILE_WRITE, bPHP.BuildWriteFile($"./${nameof}.html"$, shtml))
+End Sub
+
+
+'build the map to send an email to use in callinlinephp
+Sub BuildEmail(sfrom As String, sto As String, ssubject As String, smsg As String) As Map
+	Dim se As Map = CreateMap("from":sfrom, "to":sto, "subject":ssubject, "msg":smsg)
+	Return se
+End Sub
+
 #if PHP
-function SendMJMLEmail($from,$to,$subject,$msg,$fromname) {
+function SendMJMLEmail($from, $to, $subject, $msg) {
 	$hdr  = 'MIME-Version: 1.0' . "\r\n";
 	$hdr .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$hdr .= 'X-Mailer:PHP/' . phpversion() . "\r\n";
-	$hdr .= 'From: '.$fromname.'<'.$from.'>' . "\r\n";
+	$hdr .= 'From:' . $from . "\r\n"; 
 	$extra = '-f '. $from; 
-    if (mail($to, $subject, $msg, $hdr, $extra)) {
-		$resp['status'] = "success";
-		$output = json_encode($resp);
-		echo($output);
-	} else {
-		$resp['status'] = "failure";
-		$output = json_encode($resp);
-		echo($output);
-    }
+	$response = (mail($to, $subject, $msg, $hdr, $extra)) ? "success" : "failure"; 
+    $output = json_encode(Array("response" => $response)); 
+    header('content-type: application/json; charset=utf-8'); 
+    echo($output); 
 }
 #End If
 

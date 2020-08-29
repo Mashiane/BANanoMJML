@@ -20,6 +20,10 @@ End Sub
 Sub Init
 	'initialize the app
 	MJMLApp.Initialize("myemail")
+	MJMLApp.Minify = False
+	MJMLApp.minifyCSS = False
+	MJMLApp.Beautify = True
+		
 	'load the main layout
 	BANano.LoadLayout("#template", "myemail")
 	'load the ch to 
@@ -43,15 +47,11 @@ Sub Init
 	MJMLApp.Preview
 	
 	'save the email on root - if one needs do
-	BANanoHelpers.SaveHTMLFile("myemail", MJMLApp.HTML)
+	MJMLApp.Save
 	'
-	Dim bpr As Map
-	Dim bpe As Map
-	Dim bp As BANanoPromise = BANanoHelpers.SendMJMLEmail("TGIF Zone Inc", "info@tgifzone.com", "BANanoMJML Test", "mbanga.anele@tgifzone.com", MJMLApp.html)
-	bp.Then(bpr)
-	Log(bpr)
-	bp.Else(bpe)
-	Log(bpe)
-	bp.End
+	'send the email, build the map to pass to inline PHP
+	Dim es As Map = MJMLApp.BuildEmail("mbanga.anele@gmail.com", "mbanga.anele@gmail.com", "BANanoMJML Email", MJMLApp.html)
+	Dim email As String = BANano.CallInlinePHPWait("SendMJMLEmail", es)
+	Log(email)
 	
 End Sub

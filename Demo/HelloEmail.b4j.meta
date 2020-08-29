@@ -1,12 +1,9 @@
 ﻿ModuleBookmarks0=
 ModuleBookmarks1=
-ModuleBookmarks2=
 ModuleBreakpoints0=
 ModuleBreakpoints1=
-ModuleBreakpoints2=
 ModuleClosedNodes0=
 ModuleClosedNodes1=
-ModuleClosedNodes2=
-NavigationStack=Main,BANano_Ready,63,0,pgIndex,Process_Globals,12,4,Main,Process_Globals,12,3,Main,AppStart,39,0,BANanoHelpers,Process_Globals,5,0,BANanoHelpers,UploadFileWait,23,0,BANanoHelpers,SaveHTMLFile,48,3,BANanoHelpers,SendMJMLEmail,61,0,BANanoHelpers,SendEmail,37,0,pgIndex,Init,32,6
+NavigationStack=Main,BANano_Ready,63,0,Main,Process_Globals,12,3,Main,AppStart,39,0,pgIndex,Process_Globals,4,4,pgIndex,Init,50,6
 SelectedBuild=0
-VisibleModules=2,1
+VisibleModules=1
