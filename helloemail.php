@@ -294,20 +294,28 @@ function ValidateCC($number, $expiry)
 } 
  
  
-function SendMJMLEmail($from,$to,$subject,$msg,$fromname) { 
+function SendMJMLEmail($from, $to, $subject, $msg) { 
 	$hdr  = 'MIME-Version: 1.0' . "\r\n"; 
 	$hdr .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
 	$hdr .= 'X-Mailer:PHP/' . phpversion() . "\r\n"; 
-	$hdr .= 'From: '.$fromname.'<'.$from.'>' . "\r\n"; 
+	$hdr .= 'From:' . $from . "\r\n";  
 	$extra = '-f '. $from;  
-    if (mail($to, $subject, $msg, $hdr, $extra)) { 
-		$resp['status'] = "success"; 
-		$output = json_encode($resp); 
-		echo($output); 
-	} else { 
-		$resp['status'] = "failure"; 
-		$output = json_encode($resp); 
-		echo($output); 
-    } 
+	$response = (mail($to, $subject, $msg, $hdr, $extra)) ? "success" : "failure";  
+    $output = json_encode(Array("response" => $response));  
+    header('content-type: application/json; charset=utf-8');  
+    echo($output);  
+} 
+ 
+function EmailSender($from, $to, $cc, $subject, $msg) { 
+	$hdr  = 'MIME-Version: 1.0' . "\r\n"; 
+	$hdr .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n"; 
+	$hdr .= 'X-Mailer:PHP/' . phpversion() . "\r\n"; 
+	$hdr = "From:" . $from . "\r\n";  
+	$extra = '-f '. $from;  
+	$hdr .= "Cc: " . $cc . "\r\n";  
+	$response = (mail($to, $subject, $msg, $hdr, $extra)) ? "success" : "failure";  
+    $output = json_encode(Array("response" => $response));  
+    header('content-type: application/json; charset=utf-8');  
+    echo($output);  
 } 
 $values = array_values($params);call_user_func_array($request, $values);?>

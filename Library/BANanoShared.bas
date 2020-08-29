@@ -26,6 +26,11 @@ Sub Process_Globals
     )
 End Sub
 
+Sub GetEmailResponse(email As String) As String
+	Dim respM As Map = BANano.FromJson(email)
+	Dim response As String = respM.Get("response")
+	Return response
+End Sub
 
 'build the map to send an email to use in callinlinephp
 Sub BuildPHPEmail(sfrom As String, sto As String, scc As String, ssubject As String, smsg As String) As Map

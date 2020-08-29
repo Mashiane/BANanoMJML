@@ -43,6 +43,13 @@ Public Sub Initialize(nameit As String)
 	emailframe.SetStyle(banano.ToJson(istyle))
 End Sub
 
+
+Sub GetEmailResponse(email As String) As String
+	Dim respM As Map = banano.FromJson(email)
+	Dim response As String = respM.Get("response")
+	Return response
+End Sub
+
 'save content to html
 Sub Save
 	'get the html content for the email

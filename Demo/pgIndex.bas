@@ -52,6 +52,11 @@ Sub Init
 	'send the email, build the map to pass to inline PHP
 	Dim es As Map = MJMLApp.BuildEmail("mbanga.anele@gmail.com", "mbanga.anele@gmail.com", "BANanoMJML Email", MJMLApp.html)
 	Dim email As String = BANano.CallInlinePHPWait("SendMJMLEmail", es)
-	Log(email)
-	
+	Dim response As String = MJMLApp.GetEmailResponse(email)
+	Select Case response
+	Case "success"
+		BANano.Msgbox("Email sent successfully!")
+	Case Else
+		BANano.Msgbox("An error was experienced sending the email!")
+	End Select
 End Sub
