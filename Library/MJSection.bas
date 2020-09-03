@@ -31,6 +31,8 @@ Version=7
 #DesignerProperty: Key: PaddingRight, DisplayName: PaddingRight, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: PaddingTop, DisplayName: PaddingTop, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: TextAlign, DisplayName: TextAlign, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: VerticalAlign, DisplayName: VerticalAlign, FieldType: String, DefaultValue:  , Description: 
+
 
 Sub Class_Globals
 Private BANano As BANano 'ignore
@@ -67,7 +69,9 @@ Private stPaddingBottom As String = ""
 Private stPaddingLeft As String = ""
 Private stPaddingRight As String = ""
 Private stPaddingTop As String = ""
-Private stTextAlign As String = ""
+	Private stTextAlign As String = ""
+	Private stVerticalAlign As String = ""
+
 End Sub
 
 'initialize the custom view
@@ -108,6 +112,7 @@ stPaddingLeft = Props.Get("PaddingLeft")
 stPaddingRight = Props.Get("PaddingRight")
 stPaddingTop = Props.Get("PaddingTop")
 stTextAlign = Props.Get("TextAlign")
+		stVerticalAlign = Props.Get("VerticalAlign")
 End If
 
 AddAttr("background-color", stBackgroundColor)
@@ -129,6 +134,7 @@ AddAttr("padding-left", stPaddingLeft)
 AddAttr("padding-right", stPaddingRight)
 AddAttr("padding-top", stPaddingTop)
 AddAttr("text-align", stTextAlign)
+	AddAttr("vertical-align", stVerticalAlign)
 AddClass(mClasses)
 setAttributes(mAttributes)
 setStyles(mStyle)
@@ -332,7 +338,7 @@ End Sub
 public Sub getAttributes() As String
 Dim sbAttr As StringBuilder
 sbAttr.Initialize
-For each k As String in attributeList.Keys
+For Each k As String In attributeList.Keys
 Dim v As String = attributeList.Get(k)
 sbAttr.Append(k).Append("=").Append(v).Append(";")
 Next
@@ -530,3 +536,11 @@ Sub AddChild(child As String)
 sbText.Append(child)
 End Sub
 
+public Sub setVerticalAlign(varVerticalAlign As String)
+	AddAttr("vertical-align", varVerticalAlign)
+	stVerticalAlign = varVerticalAlign
+End Sub
+
+public Sub getVerticalAlign() As String
+	Return stVerticalAlign
+End Sub

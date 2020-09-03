@@ -33,17 +33,17 @@ Sub GetEmailResponse(email As String) As String
 End Sub
 
 'build the map to send an email to use in callinlinephp
-Sub BuildPHPEmail(sfrom As String, sto As String, scc As String, ssubject As String, smsg As String) As Map
+Sub BuildEmail(sfrom As String, sto As String, scc As String, ssubject As String, smsg As String) As Map
 	Dim se As Map = CreateMap("from":sfrom, "to":sto, "cc":scc, "subject":ssubject, "msg":smsg)
 	Return se
 End Sub
 
 #if PHP
-function EmailSender($from, $to, $cc, $subject, $msg) {
+function EmailSend($from, $to, $cc, $subject, $msg) {
 	$hdr  = 'MIME-Version: 1.0' . "\r\n";
 	$hdr .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 	$hdr .= 'X-Mailer:PHP/' . phpversion() . "\r\n";
-	$hdr = "From:" . $from . "\r\n"; 
+	$hdr .= "From:" . $from . "\r\n"; 
 	$extra = '-f '. $from; 
 	$hdr .= "Cc: " . $cc . "\r\n"; 
 	$response = (mail($to, $subject, $msg, $hdr, $extra)) ? "success" : "failure"; 

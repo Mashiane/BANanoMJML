@@ -15,6 +15,8 @@ Version=7
 #DesignerProperty: Key: BackgroundColor, DisplayName: BackgroundColor, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: CssClass, DisplayName: CssClass, FieldType: String, DefaultValue:  , Description: 
 #DesignerProperty: Key: Width, DisplayName: Width, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: FontFamily, DisplayName: FontFamily, FieldType: String, DefaultValue:  , Description: 
+#DesignerProperty: Key: FontSize, DisplayName: FontSize, FieldType: String, DefaultValue:  , Description: 
 
 Sub Class_Globals
 Private BANano As BANano 'ignore
@@ -35,7 +37,9 @@ Private sbText As StringBuilder
 Public bindings As Map
 Private stBackgroundColor As String = ""
 Private stCssClass As String = ""
-Private stWidth As String = ""
+	Private stWidth As String = ""
+	Private stFontFamily As String = ""
+	Private stFontSize As String = ""
 End Sub
 
 'initialize the custom view
@@ -59,12 +63,17 @@ mStyle = Props.Get("Style")
 mCaption = Props.Get("Caption")
 stBackgroundColor = Props.Get("BackgroundColor")
 stCssClass = Props.Get("CssClass")
-stWidth = Props.Get("Width")
+		stWidth = Props.Get("Width")
+		stFontFamily = Props.Get("FontFamily")
+		stFontSize = Props.Get("FontSize")
 End If
 
 AddAttr("background-color", stBackgroundColor)
 AddAttr("css-class", stCssClass)
-AddAttr("width", stWidth)
+	AddAttr("width", stWidth)
+	AddAttr("font-family", stFontFamily)
+	AddAttr("font-size", stFontSize)
+
 AddClass(mClasses)
 setAttributes(mAttributes)
 setStyles(mStyle)
@@ -135,7 +144,7 @@ public Sub AddClass(varClass As String)
 If BANano.IsUndefined(varClass) Or BANano.IsNull(varClass) Then Return
 If BANano.IsNumber(varClass) Then varClass = BANanoShared.CStr(varClass)
 varClass = varClass.trim
-if varClass = "" Then Return
+If varClass = "" Then Return
 If mElement <> Null Then mElement.AddClass(varClass)
 Dim mxItems As List = BANanoShared.StrParse(" ", varClass)
 For Each mt As String In mxItems
@@ -144,13 +153,13 @@ Next
 End Sub
 
 'add a class on condition
-public Sub AddClassOnCondition(varClass As String, varCondition As Boolean, varShouldBe As boolean)
+public Sub AddClassOnCondition(varClass As String, varCondition As Boolean, varShouldBe As Boolean)
 If BANano.IsUndefined(varCondition) Or BANano.IsNull(varCondition) Then Return
-if varShouldBe <> varCondition Then Return
+If varShouldBe <> varCondition Then Return
 If BANano.IsUndefined(varClass) Or BANano.IsNull(varClass) Then Return
 If BANano.IsNumber(varClass) Then varClass = BANanoShared.CStr(varClass)
 varClass = varClass.trim
-if varClass = "" Then Return
+If varClass = "" Then Return
 If mElement <> Null Then mElement.AddClass(varClass)
 Dim mxItems As List = BANanoShared.StrParse(" ", varClass)
 For Each mt As String In mxItems
@@ -210,7 +219,7 @@ End Sub
 Public Sub getClasses() As String
 Dim sbClass As StringBuilder
 sbClass.Initialize
-For each k As String in classList.Keys
+For Each k As String In classList.Keys
 sbClass.Append(k).Append(" ")
 Next
 mClasses = sbClass.ToString
@@ -222,8 +231,8 @@ public Sub setStyle(varStyle As String)
 If mElement <> Null Then
 mElement.SetStyle(varStyle)
 End If
-Dim mres as Map = BANano.FromJSON(varStyle)
-For each k As String in mres.Keys
+Dim mres As Map = BANano.FromJSON(varStyle)
+For Each k As String In mres.Keys
 Dim v As String = mres.Get(k)
 styleList.put(k, v)
 Next
@@ -234,7 +243,7 @@ public Sub getStyle() As String
 Dim sbStyle As StringBuilder
 sbStyle.Initialize
 sbStyle.Append("{")
-For each k As String in styleList.Keys
+For Each k As String In styleList.Keys
 Dim v As String = styleList.Get(k)
 sbStyle.Append(k).Append(":").Append(v).Append(",")
 Next
@@ -268,7 +277,7 @@ End Sub
 public Sub getAttributes() As String
 Dim sbAttr As StringBuilder
 sbAttr.Initialize
-For each k As String in attributeList.Keys
+For Each k As String In attributeList.Keys
 Dim v As String = attributeList.Get(k)
 sbAttr.Append(k).Append("=").Append(v).Append(";")
 Next
@@ -319,6 +328,23 @@ End Sub
 
 'add a child component
 Sub AddChild(child As String)
-sbText.Append(child)
+	sbText.Append(child)
 End Sub
 
+public Sub setFontFamily(varFontFamily As String)
+	AddAttr("font-family", varFontFamily)
+	stFontFamily = varFontFamily
+End Sub
+
+public Sub getFontFamily() As String
+	Return stFontFamily
+End Sub
+
+public Sub setFontSize(varFontSize As String)
+	AddAttr("font-size", varFontSize)
+	stFontSize = varFontSize
+End Sub
+
+public Sub getFontSize() As String
+	Return stFontSize
+End Sub
